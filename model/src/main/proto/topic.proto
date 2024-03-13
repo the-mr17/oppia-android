@@ -195,15 +195,6 @@ message SkillSummary {
   string description = 2;
 }
 
-// Corresponds to the on-disk storage representing all available topics for play.
-message Classroom {
-  // Known topics that the player can play.
-  TopicSummary topic_summary = 1;
-
-  // The last time this classroom was updated.
-  int64 last_update_time_ms = 2;
-}
-
 // Corresponds to the list of topics that are currently being played and are not fully finished.
 message OngoingTopicList {
   // All topics that are currently being played and have not finished.
