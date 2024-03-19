@@ -20,6 +20,9 @@ import org.oppia.android.util.data.AsyncResult
 import org.oppia.android.util.data.DataProviders.Companion.toLiveData
 import javax.inject.Inject
 import kotlin.system.exitProcess
+import org.oppia.android.app.classroom.ClassroomListActivity
+import org.oppia.android.util.platformparameter.EnableMultipleClassrooms
+import org.oppia.android.util.platformparameter.PlatformParameterValue
 
 private const val TAG_ADMIN_SETTINGS_DIALOG = "ADMIN_SETTINGS_DIALOG"
 private const val TAG_RESET_PIN_DIALOG = "RESET_PIN_DIALOG"
@@ -30,7 +33,9 @@ class PinPasswordActivityPresenter @Inject constructor(
   private val profileManagementController: ProfileManagementController,
   private val lifecycleSafeTimerFactory: LifecycleSafeTimerFactory,
   private val viewModelProvider: ViewModelProvider<PinPasswordViewModel>,
-  private val resourceHandler: AppLanguageResourceHandler
+  private val resourceHandler: AppLanguageResourceHandler,
+  @EnableMultipleClassrooms
+  private val enableMultipleClassrooms: PlatformParameterValue<Boolean>
 ) {
   @Inject lateinit var accessibilityService: AccessibilityService
   private val pinViewModel by lazy {
@@ -94,13 +99,17 @@ class PinPasswordActivityPresenter @Inject constructor(
                 ProfileId.newBuilder().setInternalId(profileId).build()
               ).toLiveData()
               .observe(
-                activity,
-                {
-                  if (it is AsyncResult.Success) {
-                    activity.startActivity((HomeActivity.createHomeActivity(activity, profileId)))
-                  }
+                activity
+              ) {
+                if (it is AsyncResult.Success) {
+                  activity.startActivity(
+                    if (enableMultipleClassrooms.value)
+                      ClassroomListActivity.createClassroomListActivity(activity, profileId)
+                    else
+                      HomeActivity.createHomeActivity(activity, profileId)
+                  )
                 }
-              )
+              }
           } else {
             pinViewModel.errorMessage.set(
               resourceHandler.getStringInLocale(R.string.pin_password_incorrect_pin)

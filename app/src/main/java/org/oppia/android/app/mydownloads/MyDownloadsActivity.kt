@@ -10,9 +10,15 @@ import org.oppia.android.app.home.HomeActivity
 import org.oppia.android.app.model.ScreenName.MY_DOWNLOADS_ACTIVITY
 import org.oppia.android.util.logging.CurrentAppScreenNameIntentDecorator.decorateWithScreenName
 import javax.inject.Inject
+import org.oppia.android.app.classroom.ClassroomListActivity
+import org.oppia.android.util.platformparameter.EnableMultipleClassrooms
+import org.oppia.android.util.platformparameter.PlatformParameterValue
 
 /** The activity for displaying [MyDownloadsFragment]. */
-class MyDownloadsActivity : InjectableAutoLocalizedAppCompatActivity() {
+class MyDownloadsActivity @Inject constructor(
+  @EnableMultipleClassrooms
+  private val enableMultipleClassrooms: PlatformParameterValue<Boolean>
+) : InjectableAutoLocalizedAppCompatActivity() {
   @Inject
   lateinit var myDownloadsActivityPresenter: MyDownloadsActivityPresenter
   private var internalProfileId: Int = -1
@@ -38,7 +44,10 @@ class MyDownloadsActivity : InjectableAutoLocalizedAppCompatActivity() {
   }
 
   override fun onBackPressed() {
-    val intent = HomeActivity.createHomeActivity(this, internalProfileId)
+    val intent = if (enableMultipleClassrooms.value)
+      ClassroomListActivity.createClassroomListActivity(this, internalProfileId)
+    else
+      HomeActivity.createHomeActivity(this, internalProfileId)
     startActivity(intent)
     finish()
   }

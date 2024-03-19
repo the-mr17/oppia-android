@@ -41,6 +41,9 @@ import org.oppia.android.util.data.AsyncResult
 import org.oppia.android.util.data.DataProviders.Companion.toLiveData
 import org.oppia.android.util.statusbar.StatusBarColor
 import javax.inject.Inject
+import org.oppia.android.app.classroom.ClassroomListActivity
+import org.oppia.android.util.platformparameter.EnableMultipleClassrooms
+import org.oppia.android.util.platformparameter.PlatformParameterValue
 
 const val NAVIGATION_PROFILE_ID_ARGUMENT_KEY =
   "NavigationDrawerFragmentPresenter.navigation_profile_id"
@@ -56,7 +59,9 @@ class NavigationDrawerFragmentPresenter @Inject constructor(
   private val oppiaLogger: OppiaLogger,
   private val headerViewModelProvider: ViewModelProvider<NavigationDrawerHeaderViewModel>,
   private val footerViewModelProvider: ViewModelProvider<NavigationDrawerFooterViewModel>,
-  private val developerOptionsStarter: Optional<DeveloperOptionsStarter>
+  private val developerOptionsStarter: Optional<DeveloperOptionsStarter>,
+  @EnableMultipleClassrooms
+  private val enableMultipleClassrooms: PlatformParameterValue<Boolean>
 ) : NavigationView.OnNavigationItemSelectedListener {
   private lateinit var drawerToggle: ActionBarDrawerToggle
   private lateinit var drawerLayout: DrawerLayout
@@ -244,7 +249,10 @@ class NavigationDrawerFragmentPresenter @Inject constructor(
     if (previousMenuItemId != menuItemId) {
       when (NavigationDrawerItem.valueFromNavId(menuItemId)) {
         NavigationDrawerItem.HOME -> {
-          val intent = HomeActivity.createHomeActivity(activity, internalProfileId)
+          val intent = if (enableMultipleClassrooms.value)
+            ClassroomListActivity.createClassroomListActivity(activity, internalProfileId)
+          else
+            HomeActivity.createHomeActivity(activity, internalProfileId)
           fragment.activity!!.startActivity(intent)
           drawerLayout.closeDrawers()
         }

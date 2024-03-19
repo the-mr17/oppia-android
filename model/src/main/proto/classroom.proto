@@ -4,6 +4,7 @@ package model;
 
 import "subtitled_html.proto";
 import "topic.proto";
+import "translation.proto";
 
 option java_package = "org.oppia.android.app.model";
 option java_multiple_files = true;
@@ -16,8 +17,11 @@ message ClassroomSummary {
   // The title of the classroom.
   SubtitledHtml classroom_title = 2;
 
-  // A list of topic contained within this classroom.
-  repeated Topic topic = 3;
+  // A list of topic summary contained within this classroom.
+  repeated TopicSummary topic_summary = 3;
+
+  // The translation context that should be used for this classroom.
+  WrittenTranslationContext written_translation_context = 4;
 }
 
 // Corresponds to a local file cataloging all classrooms available to load.

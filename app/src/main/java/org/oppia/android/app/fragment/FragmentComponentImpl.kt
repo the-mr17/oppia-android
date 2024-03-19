@@ -7,6 +7,7 @@ import org.oppia.android.app.administratorcontrols.AdministratorControlsFragment
 import org.oppia.android.app.administratorcontrols.LogoutDialogFragment
 import org.oppia.android.app.administratorcontrols.appversion.AppVersionFragment
 import org.oppia.android.app.administratorcontrols.learneranalytics.ProfileAndDeviceIdFragment
+import org.oppia.android.app.classroom.ClassroomListFragment
 import org.oppia.android.app.completedstorylist.CompletedStoryListFragment
 import org.oppia.android.app.devoptions.DeveloperOptionsFragment
 import org.oppia.android.app.devoptions.forcenetworktype.ForceNetworkTypeFragment
@@ -122,6 +123,7 @@ interface FragmentComponentImpl : FragmentComponent, ViewComponentBuilderInjecto
   )
   fun inject(betaNoticeDialogFragment: BetaNoticeDialogFragment)
   fun inject(cellularAudioDialogFragment: CellularAudioDialogFragment)
+  fun inject(classroomListFragment: ClassroomListFragment)
   fun inject(completedStoryListFragment: CompletedStoryListFragment)
   fun inject(conceptCardFragment: ConceptCardFragment)
   fun inject(developerOptionsFragment: DeveloperOptionsFragment)
