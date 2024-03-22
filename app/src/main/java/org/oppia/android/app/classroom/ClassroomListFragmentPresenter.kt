@@ -13,7 +13,7 @@ import org.oppia.android.app.fragment.FragmentScope
 import org.oppia.android.app.home.HomeItemViewModel
 import org.oppia.android.app.home.RouteToTopicPlayStoryListener
 import org.oppia.android.app.home.WelcomeViewModel
-import org.oppia.android.app.home.classroomlist.ClassroomSummaryViewModel
+import org.oppia.android.app.home.classroomlist.ClassroomSummaryListViewModel
 import org.oppia.android.app.home.promotedlist.ComingSoonTopicListViewModel
 import org.oppia.android.app.home.promotedlist.PromotedStoryListViewModel
 import org.oppia.android.app.home.topiclist.AllTopicsViewModel
@@ -25,7 +25,7 @@ import org.oppia.android.app.translation.AppLanguageResourceHandler
 import org.oppia.android.app.utility.datetime.DateTimeUtil
 import org.oppia.android.databinding.AllTopicsBinding
 import org.oppia.android.databinding.ClassroomListFragmentBinding
-import org.oppia.android.databinding.ClassroomSummaryViewBinding
+import org.oppia.android.databinding.ClassroomSummaryListBinding
 import org.oppia.android.databinding.ComingSoonTopicListBinding
 import org.oppia.android.databinding.PromotedStoryListBinding
 import org.oppia.android.databinding.TopicSummaryViewBinding
@@ -118,7 +118,7 @@ class ClassroomListFragmentPresenter@Inject constructor(
         is ComingSoonTopicListViewModel -> ViewType.COMING_SOON_TOPIC_LIST
         is AllTopicsViewModel -> ViewType.ALL_TOPICS
         is TopicSummaryViewModel -> ViewType.TOPIC_LIST
-        is ClassroomSummaryViewModel -> ViewType.CLASSROOM_LIST
+        is ClassroomSummaryListViewModel -> ViewType.CLASSROOM_LIST
         else -> throw IllegalArgumentException("Encountered unexpected view model: $viewModel")
       }
     }
@@ -154,9 +154,9 @@ class ClassroomListFragmentPresenter@Inject constructor(
       )
       .registerViewDataBinder(
         viewType = ViewType.CLASSROOM_LIST,
-        inflateDataBinding = ClassroomSummaryViewBinding::inflate,
-        setViewModel = ClassroomSummaryViewBinding::setViewModel,
-        transformViewModel = { it as ClassroomSummaryViewModel }
+        inflateDataBinding = ClassroomSummaryListBinding::inflate,
+        setViewModel = ClassroomSummaryListBinding::setViewModel,
+        transformViewModel = { it as ClassroomSummaryListViewModel }
       )
       .build()
   }

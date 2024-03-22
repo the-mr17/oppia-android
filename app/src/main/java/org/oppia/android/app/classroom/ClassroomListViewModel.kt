@@ -8,6 +8,7 @@ import androidx.lifecycle.Transformations
 import org.oppia.android.R
 import org.oppia.android.app.home.HomeItemViewModel
 import org.oppia.android.app.home.WelcomeViewModel
+import org.oppia.android.app.home.classroomlist.ClassroomSummaryListViewModel
 import org.oppia.android.app.home.classroomlist.ClassroomSummaryViewModel
 import org.oppia.android.app.home.promotedlist.ComingSoonTopicListViewModel
 import org.oppia.android.app.home.promotedlist.ComingSoonTopicsViewModel
@@ -99,12 +100,12 @@ class ClassroomListViewModel(
     ) { profile, classroomSummaryList ->
       listOfNotNull(computeWelcomeViewModel(profile)) +
         computeClassroomItemViewModelList(classroomSummaryList)
-    }.combineWith(
+    }/*.combineWith(
       promotedActivityListSummaryDataProvider,
       PROFILE_AND_PROMOTED_ACTIVITY_COMBINED_PROVIDER_ID
     ) { homeItemViewModelList, promotedActivityList ->
       homeItemViewModelList + listOfNotNull(computePromotedActivityListViewModel(promotedActivityList))
-    }.combineWith(
+    }*/.combineWith(
       topicListSummaryDataProvider,
       "TOPIC_SUMMARY"
     ) { homeItemViewModelList, topicList ->
@@ -276,12 +277,15 @@ class ClassroomListViewModel(
 
   private fun computeClassroomItemViewModelList(
     classroomSummaryList: List<ClassroomSummary>
-  ): List<HomeItemViewModel> {
-    return classroomSummaryList.map { classroomSummary ->
-      ClassroomSummaryViewModel(
-        classroomSummary,
-        translationController
-      )
-    }
+  ): HomeItemViewModel {
+    return ClassroomSummaryListViewModel(
+      activity,
+      classroomSummaryList.map { classroomSummary ->
+        ClassroomSummaryViewModel(
+          classroomSummary,
+          translationController
+        )
+      }
+    )
   }
 }

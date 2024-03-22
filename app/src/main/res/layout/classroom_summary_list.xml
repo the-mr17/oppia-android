@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <data>
+
+    <variable
+      name="viewModel"
+      type="org.oppia.android.app.home.classroomlist.ClassroomSummaryListViewModel" />
+  </data>
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:paddingTop="24dp"
+      android:paddingBottom="24dp"
+      android:orientation="vertical"
+      android:background="#D9E8E7">
+
+      <TextView
+        android:id="@+id/select_classroom_text_view"
+        style="@style/TextViewStart"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/promoted_story_list_layout_margin_start"
+        android:layout_weight="1"
+        android:fontFamily="sans-serif-medium"
+        android:text="Select a classroom"
+        android:textColor="@color/component_color_shared_primary_text_color"
+        android:textSize="18sp" />
+
+      <org.oppia.android.app.home.classroomlist.ClassroomSummaryListView
+        android:id="@+id/classroom_list_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:clipToPadding="false"
+        android:orientation="horizontal"
+        android:overScrollMode="never"
+        android:paddingStart="@dimen/home_padding_start"
+        android:paddingEnd="@{viewModel.endPadding}"
+        android:scrollbars="none"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:classroomSummaryList="@{viewModel.classroomSummaryList}" />
+    </LinearLayout>
+
+    <View
+      android:layout_width="match_parent"
+      android:layout_height="4dp"
+      android:background="@drawable/toolbar_drop_shadow"/>
+  </LinearLayout>
+</layout>

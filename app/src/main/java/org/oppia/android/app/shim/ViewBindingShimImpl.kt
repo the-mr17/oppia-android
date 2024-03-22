@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import org.oppia.android.R
+import org.oppia.android.app.home.classroomlist.ClassroomSummaryViewModel
 import org.oppia.android.app.home.promotedlist.ComingSoonTopicsViewModel
 import org.oppia.android.app.home.promotedlist.PromotedStoryViewModel
 import org.oppia.android.app.model.WrittenTranslationContext
@@ -16,6 +17,7 @@ import org.oppia.android.app.player.state.itemviewmodel.DragDropInteractionConte
 import org.oppia.android.app.player.state.itemviewmodel.SelectionInteractionContentViewModel
 import org.oppia.android.app.survey.surveyitemviewmodel.MultipleChoiceOptionContentViewModel
 import org.oppia.android.app.translation.AppLanguageResourceHandler
+import org.oppia.android.databinding.ClassroomSummaryCardBinding
 import org.oppia.android.databinding.ComingSoonTopicViewBinding
 import org.oppia.android.databinding.DragDropInteractionItemsBinding
 import org.oppia.android.databinding.DragDropSingleItemBinding
@@ -48,6 +50,16 @@ class ViewBindingShimImpl @Inject constructor(
     attachToParent: Boolean
   ): View {
     return PromotedStoryCardBinding.inflate(
+      LayoutInflater.from(parent.context), parent, attachToParent
+    ).root
+  }
+
+  override fun provideClassroomSummaryCardInflatedView(
+    inflater: LayoutInflater,
+    parent: ViewGroup,
+    attachToParent: Boolean
+  ): View {
+    return ClassroomSummaryCardBinding.inflate(
       LayoutInflater.from(parent.context), parent, attachToParent
     ).root
   }
@@ -192,6 +204,15 @@ class ViewBindingShimImpl @Inject constructor(
     val binding =
       DataBindingUtil.findBinding<SurveyNpsItemBinding>(view)!!
     binding.scoreContent = viewModel.optionContent
+    binding.viewModel = viewModel
+  }
+
+  override fun provideClassroomSummaryViewModel(
+    view: View,
+    viewModel: ClassroomSummaryViewModel
+  ) {
+    val binding =
+      DataBindingUtil.findBinding<ClassroomSummaryCardBinding>(view)!!
     binding.viewModel = viewModel
   }
 

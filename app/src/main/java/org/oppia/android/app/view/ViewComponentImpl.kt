@@ -9,6 +9,7 @@ import org.oppia.android.app.customview.LessonThumbnailImageView
 import org.oppia.android.app.customview.PromotedStoryCardView
 import org.oppia.android.app.customview.SegmentedCircularProgressView
 import org.oppia.android.app.customview.SurveyOnboardingBackgroundView
+import org.oppia.android.app.home.classroomlist.ClassroomSummaryListView
 import org.oppia.android.app.home.promotedlist.ComingSoonTopicsListView
 import org.oppia.android.app.home.promotedlist.PromotedStoryListView
 import org.oppia.android.app.player.state.DragDropSortInteractionView
@@ -33,6 +34,7 @@ interface ViewComponentImpl : ViewComponent {
   }
 
   fun inject(chapterNotStartedContainerConstraintLayout: ChapterNotStartedContainerConstraintLayout)
+  fun inject(classroomSummaryListView: ClassroomSummaryListView)
   fun inject(comingSoonTopicsListView: ComingSoonTopicsListView)
   fun inject(continueButtonView: ContinueButtonView)
   fun inject(selectionInteractionView: SelectionInteractionView)

@@ -7,6 +7,7 @@ import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
+import org.oppia.android.app.home.classroomlist.ClassroomSummaryViewModel
 import org.oppia.android.app.home.promotedlist.ComingSoonTopicsViewModel
 import org.oppia.android.app.home.promotedlist.PromotedStoryViewModel
 import org.oppia.android.app.model.WrittenTranslationContext
@@ -94,6 +95,15 @@ interface ViewBindingShim {
    * Handles binding inflation for [org.oppia.android.app.home.promotedlist.PromotedStoryListView].
    */
   fun providePromotedStoryCardInflatedView(
+    inflater: LayoutInflater,
+    parent: ViewGroup,
+    attachToParent: Boolean
+  ): View
+
+  /**
+   * Handles binding inflation for [org.oppia.android.app.home.classroomlist.ClassroomSummaryListView].
+   */
+  fun provideClassroomSummaryCardInflatedView(
     inflater: LayoutInflater,
     parent: ViewGroup,
     attachToParent: Boolean
@@ -205,5 +215,14 @@ interface ViewBindingShim {
   fun provideNpsItemsViewModel(
     view: View,
     viewModel: MultipleChoiceOptionContentViewModel
+  )
+
+  /**
+   * Handles binding inflation for [org.oppia.android.app.home.classroomlist.ClassroomSummaryViewModel]
+   * and returns the view model.
+   */
+  fun provideClassroomSummaryViewModel(
+    view: View,
+    viewModel: ClassroomSummaryViewModel
   )
 }
