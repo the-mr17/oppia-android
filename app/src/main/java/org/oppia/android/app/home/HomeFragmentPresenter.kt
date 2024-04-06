@@ -32,6 +32,7 @@ import org.oppia.android.domain.translation.TranslationController
 import org.oppia.android.util.parser.html.StoryHtmlParserEntityType
 import org.oppia.android.util.parser.html.TopicHtmlParserEntityType
 import javax.inject.Inject
+import org.oppia.android.domain.classroom.ClassroomController
 
 /** The presenter for [HomeFragment]. */
 @FragmentScope
@@ -40,6 +41,7 @@ class HomeFragmentPresenter @Inject constructor(
   private val fragment: Fragment,
   private val profileManagementController: ProfileManagementController,
   private val topicListController: TopicListController,
+  private val classroomController: ClassroomController,
   private val oppiaLogger: OppiaLogger,
   private val analyticsController: AnalyticsController,
   @TopicHtmlParserEntityType private val topicEntityType: String,
@@ -68,6 +70,7 @@ class HomeFragmentPresenter @Inject constructor(
       internalProfileId,
       profileManagementController,
       topicListController,
+      classroomController,
       topicEntityType,
       storyEntityType,
       resourceHandler,

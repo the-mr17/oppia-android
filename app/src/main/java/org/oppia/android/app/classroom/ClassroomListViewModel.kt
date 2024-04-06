@@ -83,7 +83,7 @@ class ClassroomListViewModel(
   }
 
   private val topicListSummaryDataProvider: DataProvider<TopicList> by lazy {
-    topicListController.getTopicList(profileId)
+    classroomController.getTopicList(profileId, "")
   }
 
   private val classroomSummaryListDataProvider: DataProvider<List<ClassroomSummary>> by lazy {
@@ -283,6 +283,7 @@ class ClassroomListViewModel(
       classroomSummaryList.map { classroomSummary ->
         ClassroomSummaryViewModel(
           classroomSummary,
+          classroomController,
           translationController
         )
       }

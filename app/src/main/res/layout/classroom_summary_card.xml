@@ -17,15 +17,16 @@
     android:layout_marginEnd="8dp"
     android:layout_marginTop="8dp"
     android:layout_marginBottom="8dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:onClick="@{(v) -> viewModel.onClassroomClicked()}"
     app:cardCornerRadius="4dp"
     app:cardElevation="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:clickable="true"
-      android:focusable="true"
-      android:background="@drawable/classroom_white_bg_with_bright_green_border">
+      android:background="@{viewModel.isSelected ? @drawable/classroom_dark_green_bg_with_bright_green_border : @drawable/classroom_white_bg_with_bright_green_border}">
       <ImageView
         android:id="@+id/classroom_icon"
         android:layout_width="80sp"
@@ -51,7 +52,7 @@
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
         android:text="@{viewModel.title}"
-        android:textColor="@color/color_def_green"
+        android:textColor="@{viewModel.isSelected ? @color/color_def_white : @color/color_def_green}"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
