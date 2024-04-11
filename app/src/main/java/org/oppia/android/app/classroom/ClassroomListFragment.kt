@@ -8,10 +8,12 @@ import android.view.ViewGroup
 import javax.inject.Inject
 import org.oppia.android.app.fragment.FragmentComponentImpl
 import org.oppia.android.app.fragment.InjectableFragment
+import org.oppia.android.app.home.classroomlist.ClassroomSummaryClickListener
 import org.oppia.android.app.home.topiclist.TopicSummaryClickListener
+import org.oppia.android.app.model.ClassroomSummary
 import org.oppia.android.app.model.TopicSummary
 
-class ClassroomListFragment: InjectableFragment(), TopicSummaryClickListener {
+class ClassroomListFragment: InjectableFragment(), TopicSummaryClickListener, ClassroomSummaryClickListener{
   @Inject
   lateinit var classroomListFragmentPresenter: ClassroomListFragmentPresenter
 
@@ -30,5 +32,9 @@ class ClassroomListFragment: InjectableFragment(), TopicSummaryClickListener {
 
   override fun onTopicSummaryClicked(topicSummary: TopicSummary) {
     classroomListFragmentPresenter.onTopicSummaryClicked(topicSummary)
+  }
+
+  override fun onClassroomSummaryClicked(classroomSummary: ClassroomSummary) {
+    classroomListFragmentPresenter.onClassroomSummaryClicked(classroomSummary)
   }
 }

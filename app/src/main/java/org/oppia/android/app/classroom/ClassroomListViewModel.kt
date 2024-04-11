@@ -8,6 +8,7 @@ import androidx.lifecycle.Transformations
 import org.oppia.android.R
 import org.oppia.android.app.home.HomeItemViewModel
 import org.oppia.android.app.home.WelcomeViewModel
+import org.oppia.android.app.home.classroomlist.ClassroomSummaryClickListener
 import org.oppia.android.app.home.classroomlist.ClassroomSummaryListViewModel
 import org.oppia.android.app.home.classroomlist.ClassroomSummaryViewModel
 import org.oppia.android.app.home.promotedlist.ComingSoonTopicListViewModel
@@ -284,6 +285,7 @@ class ClassroomListViewModel(
         ClassroomSummaryViewModel(
           classroomSummary,
           classroomController,
+          fragment as ClassroomSummaryClickListener,
           translationController
         )
       }

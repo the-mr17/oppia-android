@@ -2,7 +2,6 @@ package org.oppia.android.app.home.classroomlist
 
 import androidx.databinding.ObservableBoolean
 import java.util.Objects
-import org.oppia.android.app.classroom.SwitchClassroomListener
 import org.oppia.android.app.model.ClassroomSummary
 import org.oppia.android.app.viewmodel.ObservableViewModel
 import org.oppia.android.domain.classroom.ClassroomController
@@ -12,8 +11,9 @@ import org.oppia.android.domain.translation.TranslationController
 class ClassroomSummaryViewModel(
   private val classroomSummary: ClassroomSummary,
   private val classroomController: ClassroomController,
+  private val classroomSummaryClickListener: ClassroomSummaryClickListener,
   translationController: TranslationController
-): ObservableViewModel(), SwitchClassroomListener {
+): ObservableViewModel() {
 
   val title: String by lazy {
     translationController.extractString(
@@ -27,12 +27,8 @@ class ClassroomSummaryViewModel(
 
   /** Called when user clicks on ClassroomSummaryCard. */
   fun onClassroomClicked() {
-    this.switchClassroom(classroomSummary.classroomId)
+    classroomSummaryClickListener.onClassroomSummaryClicked(classroomSummary)
     // isSelected.set(classroomController.getSelectedClassroomId() == classroomSummary.classroomId)
-  }
-
-  override fun switchClassroom(classroomId: String) {
-    classroomController.switchClassroom(classroomId)
   }
 
   // Overriding equals is needed so that DataProvider combine functions used in the HomeViewModel

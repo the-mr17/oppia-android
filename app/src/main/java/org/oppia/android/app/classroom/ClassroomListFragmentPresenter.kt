@@ -18,6 +18,7 @@ import org.oppia.android.app.home.promotedlist.ComingSoonTopicListViewModel
 import org.oppia.android.app.home.promotedlist.PromotedStoryListViewModel
 import org.oppia.android.app.home.topiclist.AllTopicsViewModel
 import org.oppia.android.app.home.topiclist.TopicSummaryViewModel
+import org.oppia.android.app.model.ClassroomSummary
 import org.oppia.android.app.model.ProfileId
 import org.oppia.android.app.model.TopicSummary
 import org.oppia.android.app.recyclerview.BindableAdapter
@@ -176,6 +177,10 @@ class ClassroomListFragmentPresenter@Inject constructor(
       topicSummary.topicId,
       topicSummary.firstStoryId
     )
+  }
+
+  fun onClassroomSummaryClicked(classroomSummary: ClassroomSummary) {
+    classroomController.switchClassroom(classroomSummary.classroomId)
   }
 
   private fun logHomeActivityEvent() {
