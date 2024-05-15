@@ -3,20 +3,33 @@ package org.oppia.android.app.home
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.MaterialTheme
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -118,37 +131,100 @@ class HomeFragmentPresenter @Inject constructor(
     logAppOnboardedEvent()
 
     binding.composeView.setContent {
-      GroupedList()
+      HomeScreenPrototype()
     }
 
     return binding.root
   }
 
-  @OptIn(ExperimentalFoundationApi::class)
+  @OptIn(
+    ExperimentalFoundationApi::class,
+    ExperimentalUnitApi::class,
+    ExperimentalMaterialApi::class
+  )
   @Composable
-  fun GroupedList() {
-    val sections = listOf("A", "B", "C")
-
+  fun HomeScreenPrototype() {
     LazyColumn {
-      sections.forEach { section ->
-        stickyHeader {
-          Column(
-            modifier = Modifier
-              .height(40.dp)
-              .fillMaxWidth()
-              .background(Color.LightGray)
-          ) {
-            Text(
-              text = section,
-              modifier = Modifier.fillMaxWidth(),
-              style = MaterialTheme.typography.h4,
-              textAlign = TextAlign.Center
-            )
+      item {
+        Text(
+          text = "Good evening, Admin!",
+          fontSize = 20.sp,
+          modifier = Modifier.padding(20.dp, 20.dp, 20.dp, 0.dp)
+        )
+      }
+      item {
+        Text(
+          text = "Recently Played Stories",
+          fontSize = 16.sp,
+          modifier = Modifier
+            .padding(20.dp)
+        )
+        LazyRow(Modifier.background(color = Color.White)) {
+          items(5) {
+            SampleCard(R.drawable.lesson_thumbnail_graphic_baker)
           }
         }
-        items(100) { item ->
-          Text(text = "Some item $item")
+      }
+      stickyHeader {
+        Text(
+          text = "Select Classroom",
+          fontSize = 16.sp,
+          modifier = Modifier
+            .padding(20.dp)
+        )
+        LazyRow(Modifier.background(color = Color.White)) {
+          items(5) {
+            SampleCard(R.drawable.lesson_thumbnail_graphic_duck_and_chicken)
+          }
         }
+      }
+      item {
+        Text(
+          text = "Select a Topic to Start",
+          fontSize = 16.sp,
+          modifier = Modifier
+            .padding(20.dp)
+        )
+      }
+      items(100) { item ->
+        Text(text = "Some item $item")
+      }
+    }
+  }
+  
+  @Composable
+  fun SampleCard(drawable: Int) {
+    Card(
+      modifier = Modifier
+        .padding(16.dp)
+        .fillMaxWidth()
+        .clickable {
+          Toast
+            .makeText(activity, "Card clicked!", Toast.LENGTH_SHORT)
+            .show()
+        },
+      shape = RoundedCornerShape(8.dp),
+      backgroundColor = Color.White,
+      elevation = 8.dp
+    ) {
+      Column(
+        modifier = Modifier.padding(16.dp)
+      ) {
+        Image(
+          painter = painterResource(id = drawable),
+          contentDescription = "Sample Image",
+          modifier = Modifier
+            .height(150.dp)
+            .fillMaxWidth(),
+          contentScale = ContentScale.Crop
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+          text = "Card title",
+          textAlign = TextAlign.Center,
+          modifier = Modifier
+            .align(Alignment.CenterHorizontally)
+        )
       }
     }
   }
