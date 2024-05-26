@@ -691,3 +691,53 @@ message TopicLearningTime {
   // in milliseconds, coinciding with the last time the learner played an exploration in this topic.
   int64 last_updated_time_ms = 3;
 }
+
+// Corresponds to a local file cataloging all classrooms available to load.
+message ClassroomIdList {
+  // The list of IDs corresponding to classrooms available on the local filesystem.
+  repeated string classroom_ids = 1;
+}
+
+// Corresponds to a record of a classroom available to be loaded from the local filesystem.
+message ClassroomRecord {
+  // The ID of the classroom.
+  string id = 1;
+
+  // Mapping from content_id to a TranslationMapping for each SubtitledHtml in this classroom that
+  // has a corresponding translation.
+  map<string, TranslationMapping> written_translations = 2;
+
+  // The title of the classroom.
+  SubtitledHtml translatable_title = 3;
+
+  // The thumbnail corresponding to this classroom.
+  LessonThumbnail classroom_thumbnail = 4;
+
+  // A map from topic ID to a TopicIdList indicating the prerequisite topics to suggest to the user
+  // before they play the topic given by the key. Note that the keys of this map indicate the
+  // complete list of topics contained within this classroom. The prerequisite list of topics may
+  // include topics outside of this classroom.
+  map<string, TopicIdList> topic_prerequisites = 5;
+
+  // A list of topic IDs contained within this classroom.
+  TopicIdList topic_ids = 6;
+}
+
+// A summary of a classroom which contains a list of topic summaries.
+message ClassroomSummary {
+  // The ID of the classroom.
+  string classroom_id = 1;
+
+  // Mapping from content_id to a TranslationMapping for each SubtitledHtml in this classroom that
+  // has a corresponding translation.
+  map<string, TranslationMapping> written_translations = 2;
+
+  // The title of the classroom.
+  SubtitledHtml classroom_title = 3;
+
+  // The thumbnail corresponding to this classroom.
+  LessonThumbnail classroom_thumbnail = 4;
+
+  // A list of topic summaries contained within this classroom.
+  repeated TopicSummary topic_summary = 5;
+}
