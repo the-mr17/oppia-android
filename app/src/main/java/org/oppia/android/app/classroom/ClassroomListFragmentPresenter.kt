@@ -99,6 +99,40 @@ class ClassroomListFragmentPresenter @Inject constructor(
           }
         }
       }
+      classroomListViewModel.topicList.addOnListChangedCallback(object : ObservableList.OnListChangedCallback<ObservableList<HomeItemViewModel>>() {
+        override fun onChanged(sender: ObservableList<HomeItemViewModel>) {
+          oppiaLogger.d("topicList", "changed")
+        }
+
+        override fun onItemRangeChanged(sender: ObservableList<HomeItemViewModel>, positionStart: Int, itemCount: Int) {
+          // handle item range changes
+
+          oppiaLogger.d("topicList", "changed1")
+        }
+
+        override fun onItemRangeInserted(sender: ObservableList<HomeItemViewModel>, positionStart: Int, itemCount: Int) {
+          // handle item range insertions
+          oppiaLogger.d("topicList", "changed2")
+          binding.composeView.apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+              MaterialTheme {
+                ClassroomListScreen(it, sender)
+              }
+            }
+          }
+        }
+
+        override fun onItemRangeMoved(sender: ObservableList<HomeItemViewModel>, fromPosition: Int, toPosition: Int, itemCount: Int) {
+          // handle item range moves
+          oppiaLogger.d("topicList", "changed3")
+        }
+
+        override fun onItemRangeRemoved(sender: ObservableList<HomeItemViewModel>, positionStart: Int, itemCount: Int) {
+          // handle item range removals
+          oppiaLogger.d("topicList", "changed4")
+        }
+      })
     }
 
     return binding.root
@@ -109,7 +143,7 @@ class ClassroomListFragmentPresenter @Inject constructor(
   // WelcomeViewModel, PromotedStoryListVM, classrom: {CLassroomVM, CLassroomVM, CLassroomVM}, TopicHeading, topic: {TopicSummmaryVM, TopicSummmaryVM}
   fun ClassroomListScreen(homeItemViewModelList: List<HomeItemViewModel>, topicList: ObservableList<HomeItemViewModel>) {
     oppiaLogger.d("topicList", topicList.toString())
-    val groupedItems = homeItemViewModelList.groupBy { it::class }
+    val groupedItems = (homeItemViewModelList + topicList).groupBy { it::class }
     val topicListSpanCount = integerResource(id = R.integer.home_span_count)
     LazyColumn {
       groupedItems.forEach { (type, items) ->
@@ -133,11 +167,12 @@ class ClassroomListFragmentPresenter @Inject constructor(
             }
           }
           TopicSummaryViewModel::class -> gridItems(
-            data = topicList.map { it as TopicSummaryViewModel },
+            data = items.map { it as TopicSummaryViewModel },
             columnCount = topicListSpanCount,
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.padding(horizontal = 28.dp, vertical = 10.dp)
           ) { itemData ->
+            oppiaLogger.d("topicList", itemData.toString())
             TopicCard(topicSummaryViewModel = itemData)
           }
         }

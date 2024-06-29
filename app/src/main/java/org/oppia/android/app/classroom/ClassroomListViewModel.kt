@@ -28,6 +28,7 @@ import org.oppia.android.app.translation.AppLanguageResourceHandler
 import org.oppia.android.app.utility.datetime.DateTimeUtil
 import org.oppia.android.app.viewmodel.ObservableViewModel
 import org.oppia.android.domain.classroom.ClassroomController
+import org.oppia.android.domain.classroom.TEST_CLASSROOM_ID_0
 import org.oppia.android.domain.oppialogger.OppiaLogger
 import org.oppia.android.domain.profile.ProfileManagementController
 import org.oppia.android.domain.topic.TopicListController
@@ -75,7 +76,10 @@ class ClassroomListViewModel(
    */
   val isProgressBarVisible = ObservableField(true)
 
-  val topicList: ObservableList<HomeItemViewModel> = ObservableArrayList()
+  val topicList: ObservableList<HomeItemViewModel> by lazy {
+    onClassroomClicked(TEST_CLASSROOM_ID_0)
+    ObservableArrayList()
+  }
 
   private val profileDataProvider: DataProvider<Profile> by lazy {
     profileManagementController.getProfile(profileId)
@@ -127,13 +131,31 @@ class ClassroomListViewModel(
   override fun onClassroomClicked(classroomId: String) {
     /*print(classroomId)
     getTopicList(classroomId)*/
-    oppiaLogger.d("topicList", topicList.toString())
+    oppiaLogger.d("topicList", classroomId)
 
-    classroomController.getTopicList(profileId, classroomId).transform("ID") {
+    // classroomController.getTopicList(profileId, classroomId).retrieveData()
+    /*classroomController.getTopicList(profileId, classroomId).transform("ID") {
       computeAllTopicsItemsViewModelList(it).map {
         topicList.add(it)
       }
       oppiaLogger.d("topicList", topicList.toString())
+    }*/
+
+    classroomController.getTopicList(profileId, classroomId).toLiveData().observe(fragment) {
+      when (it) {
+        is AsyncResult.Success -> {
+          topicList.clear()
+          computeAllTopicsItemsViewModelList(it.value).map { topicList.add(it) }
+          oppiaLogger.d("topicList", topicList.toString())
+        }
+        is AsyncResult.Failure -> {
+          oppiaLogger.d("topicList", topicList.toString())
+        }
+        is AsyncResult.Pending -> {
+          oppiaLogger.d("topicList", topicList.toString())
+        }
+        else -> oppiaLogger.d("topicList", "else")
+      }
     }
   }
 
